@@ -57,7 +57,11 @@ After this you should see executable file called `golang-book-api` in `src/golan
 
 ## Running project
 
-To run API go to `src/golang-book-api` directory and simply run:
+To start API simply run script:
+
+`buildAndRun.sh`
+
+If you want to run it manually go to `src/golang-book-api` directory and run file (you need to build it first):
 
 *MacOS/linux*
 ```
