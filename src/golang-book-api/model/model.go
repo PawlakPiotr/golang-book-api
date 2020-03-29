@@ -14,3 +14,14 @@ type Author struct {
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
 }
+
+// Config object represtons configuration of application
+type Config struct {
+	Database struct {
+		Connection  string   `json:"connection"`
+		Name        string   `json:"name"`
+		Collcetions []string `json:"collcetions"`
+	} `json:"database"`
+	Host string `json:"host"`
+	Port string `json:"port"`
+}

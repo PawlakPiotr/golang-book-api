@@ -1,0 +1,9 @@
+{
+    "database": {
+        "connection": "mongodb://localhost:27017",
+        "name": "Library",
+        "collections": ["books"]
+    },
+    "host": "localhost",
+    "port": "8080"
+}
