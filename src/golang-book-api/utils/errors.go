@@ -10,7 +10,7 @@ type Error struct {
 	ErrorDescription string
 }
 
-// Error codes
+// Error objects
 var (
 	ErrArgsMissing = Error{Status: http.StatusBadRequest, ErrorDescription: "Argument value missing: "}
 	ErrDecodeBody  = Error{Status: http.StatusBadRequest, ErrorDescription: "Error decoding body."}
