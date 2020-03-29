@@ -78,3 +78,66 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result.InsertedID)
 	utils.LoggerOut("CreateBook")
 }
+
+//UpdateBook updates book
+func UpdateBook(w http.ResponseWriter, r *http.Request) {
+	utils.LoggerIn("UpdateBook")
+	params := mux.Vars(r)
+	utils.Logger.Info("Getting Book with ID ", params["id"])
+	objID, _ := primitive.ObjectIDFromHex(params["id"])
+
+	updateBookObj, err := utils.CreateBookParseRequest(w, r)
+	utils.Logger.Debug("Request ", updateBookObj)
+	if err != nil {
+		return
+	}
+	booksCollection := db.GetCollection("books")
+	var foundBook m.Book
+	err = booksCollection.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&foundBook)
+	if err != nil {
+		utils.ErrorResponse(w, utils.ErrNotFound, " Book with ID "+params["id"])
+		return
+	}
+	if updateBookObj.Title == "" {
+		updateBookObj.Title = foundBook.Title
+	}
+	if updateBookObj.Category == "" {
+		updateBookObj.Category = foundBook.Category
+	}
+	if nil == updateBookObj.Author {
+		updateBookObj.Author = foundBook.Author
+	}
+	if len(updateBookObj.Tags) == 0 {
+		updateBookObj.Tags = foundBook.Tags
+	}
+	res := booksCollection.FindOneAndUpdate(context.TODO(), bson.M{"_id": objID}, bson.M{"$set": updateBookObj})
+
+	utils.Logger.Debugf("Book updated successfully [BOOK - %+v]", updateBookObj)
+	json.NewEncoder(w).Encode(res)
+	utils.LoggerOut("UpdateBook")
+}
+
+// DeleteBook function deletes book with given ID
+func DeleteBook(w http.ResponseWriter, r *http.Request) {
+	utils.LoggerIn("DeleteBook")
+
+	params := mux.Vars(r)
+	utils.Logger.Info("Deleting Book with ID ", params["id"])
+	objID, _ := primitive.ObjectIDFromHex(params["id"])
+	booksCollection := db.GetCollection("books")
+
+	var foundBook m.Book
+	err := booksCollection.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&foundBook)
+	if err != nil {
+		utils.ErrorResponse(w, utils.ErrNotFound, " Book with ID "+params["id"])
+		return
+	}
+	deleteResult, err := booksCollection.DeleteOne(context.TODO(), bson.M{"_id": objID})
+	if err != nil {
+		utils.ErrorResponse(w, utils.ErrNotFound, " Book with ID "+params["id"])
+		return
+	}
+
+	json.NewEncoder(w).Encode(deleteResult.DeletedCount)
+	utils.LoggerOut("DeleteBook")
+}
