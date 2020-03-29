@@ -21,9 +21,21 @@ func routeCreateBook(router *mux.Router) {
 	router.HandleFunc("/api/v1/books/add", con.CreateBook).Methods("POST")
 }
 
+// [PUT] - api/v1/books/{id} [params]=[ID]
+func routeUpdateBook(router *mux.Router) {
+	router.HandleFunc("/api/v1/books/{id}", con.UpdateBook).Methods("PUT")
+}
+
+// [DELETE] - api/v1/books/{id} [params]=[ID]
+func routeDeleteBook(router *mux.Router) {
+	router.HandleFunc("/api/v1/books/{id}", con.DeleteBook).Methods("DELETE")
+}
+
 // SetRoutes sets all API routes
 func SetRoutes(router *mux.Router) {
 	routeGetBooks(router)
 	routeGetBook(router)
 	routeCreateBook(router)
+	routeUpdateBook(router)
+	routeDeleteBook(router)
 }
