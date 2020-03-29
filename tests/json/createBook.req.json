@@ -1,0 +1,9 @@
+{
+    "title": "new title",
+	"author" : {
+		"firstname" : "FName",
+		"lastname" : "LName"
+	},
+	"category" : "test CATEGORY",
+	"cags" : ["new_tag1", "new_tag2"]
+}
