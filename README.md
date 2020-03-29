@@ -17,6 +17,7 @@ The database used in this project is MongoDB. You can download it from official 
 
 * MUX - `github.com/gorilla/mux`
 * MongoDB - `go.mongodb.org/mongo-driver/mongo`
+* Logrus - `github.com/Sirupsen/logrus`
 
 Each package can be downloaded by running the command `go get <package name>`. For example:
 ```
